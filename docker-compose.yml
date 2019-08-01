@@ -1,0 +1,22 @@
+version: '3.7'
+
+volumes:
+  code:
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-broker
+    ports:
+      - 5672:5672
+      - 8080:15672
+  python:
+    image: python:latest
+    container_name: python
+    command: ['tail', '-f', '/dev/null']
+    volumes:
+      - code:/code
+    working_dir: /code
+networks:
+  default:
+    name: rabbitmq-network
